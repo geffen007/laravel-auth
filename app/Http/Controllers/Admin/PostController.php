@@ -49,7 +49,6 @@ class PostController extends Controller
         $postNew = new Post();
         $postNew->fill($data); 
         $saved = $postNew->save();
-        dd($saved);
 
     }
 
