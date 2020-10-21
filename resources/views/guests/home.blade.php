@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="display-4 p-5 text-center">
-        Benventuo nel mio fantastico Blog
+        Benventuo nel mio Blog
     </div>
 
     @guest
