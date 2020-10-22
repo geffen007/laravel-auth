@@ -87,7 +87,7 @@ class PostController extends Controller
     {
         $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('tags'));
+        return view('admin.posts.edit', compact('tags', 'post'));
 
     }
 
@@ -102,11 +102,13 @@ class PostController extends Controller
     {
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
-
-        if(!empty($data['tags'])){
-            $postNew->tags()->attach($data['tags']);
+        
+        if (!empty($data['tags'])){
+            $post->tags()->sync($data['tags']);
+        }  else {
+            $post->tags()->detach();
         }
-
+ 
         $post->update($data); 
 
         return redirect()->route('posts.index')->with('status', 'Hai modificato correttamente il post');
