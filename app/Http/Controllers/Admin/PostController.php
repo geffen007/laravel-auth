@@ -17,7 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -49,6 +50,9 @@ class PostController extends Controller
         $postNew = new Post();
         $postNew->fill($data); 
         $saved = $postNew->save();
+        if($saved){
+            return redirect()->route('posts.index');
+        }
 
     }
 
@@ -71,7 +75,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -83,7 +87,12 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['title'], '-');
+
+        $post->update($data); 
+
+        return redirect()->route('posts.index')->with('status', 'Hai modificato correttamente il post'.$post->id);
     }
 
     /**
@@ -94,6 +103,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index')->with('status', 'Hai cancellato correttamente il post'.$post->id);
     }
 }
