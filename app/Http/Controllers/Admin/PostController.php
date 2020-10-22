@@ -87,7 +87,7 @@ class PostController extends Controller
     {
         $tags = Tag::all();
 
-        return view('admin.posts.create', compact('tags'));
+        return view('admin.posts.edit', compact('tags'));
 
     }
 
@@ -109,7 +109,7 @@ class PostController extends Controller
 
         $post->update($data); 
 
-        return redirect()->route('posts.index')->with('status', 'Hai modificato correttamente il post'.$post->id);
+        return redirect()->route('posts.index')->with('status', 'Hai modificato correttamente il post');
     }
 
     /**
