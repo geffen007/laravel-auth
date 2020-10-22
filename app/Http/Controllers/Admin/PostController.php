@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Post;
+use App\Tag;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,7 +19,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
-        return view('admin.posts.index', compact('posts'));
+
+            return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -28,7 +30,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $tags = Tag::all();
+
+        return view('admin.posts.create', compact('tags'));
     }
 
     /**
@@ -46,14 +50,20 @@ class PostController extends Controller
         ]);
         $data['user_id'] = Auth::id();
         $data['slug'] = Str::slug($data['title'], '-');
-
+        
         $postNew = new Post();
         $postNew->fill($data); 
+
         $saved = $postNew->save();
+
+        if(!empty($data['tags'])){
+            $postNew->tags()->attach($data['tags']);
+        }
+
+
         if($saved){
             return redirect()->route('posts.index');
         }
-
     }
 
     /**
@@ -75,7 +85,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $tags = Tag::all();
+
+        return view('admin.posts.create', compact('tags'));
+
     }
 
     /**
@@ -89,6 +102,10 @@ class PostController extends Controller
     {
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
+
+        if(!empty($data['tags'])){
+            $postNew->tags()->attach($data['tags']);
+        }
 
         $post->update($data); 
 

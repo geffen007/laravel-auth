@@ -27,6 +27,13 @@
       <label for="body">Password</label>
       <textarea class="form-control" name="body"  rows="3"></textarea>
     </div>
+
+    <div class="form-group">
+        @foreach($tags as $tag)
+          <label for="tag">{{ $tag->name }}</label>
+          <input type="checkbox" name="tags[]" value="{{ $tag->id }}">
+        @endforeach
+    </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 @endsection
