@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('guests.home');
-});
+})->name('guestHome');
 
 Auth::routes();
 
@@ -28,3 +28,6 @@ Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function (
 });
 
 //middleware tolto dal controller
+
+Route::get('posts', 'PostController@index')->name('guests.home');
+Route::get('posts/show/{slug}', 'PostController@show')->name('guests.show');

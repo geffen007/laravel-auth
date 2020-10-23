@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->longtext('body');
             $table->string('slug')->unique();
             $table->timestamps();
-
+            $table->string('img')->nullable();
             $table->unsignedBigInteger('user_id'); 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade'); 
         });
