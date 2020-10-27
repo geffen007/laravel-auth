@@ -22,9 +22,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(5);
-
-            return view('admin.posts.index', compact('posts'));
+        if (Auth::user()->role->role == 'Admin'){
+            $posts = Post::paginate(5);
+        } elseif (Auth::user()->role->role == 'User'){
+            $posts = Post::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(5);
+        }
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -146,6 +149,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('posts.index')->with('status', 'Hai cancellato correttamente il post'.$post->id);
+        return redirect()->route('posts.index')->with('status', 'Hai cancellato correttamente il post '.$post->id);
     }
 }

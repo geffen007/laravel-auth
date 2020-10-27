@@ -12,7 +12,7 @@ class Post extends Model
         'body',
         'slug',
         'updated_at',
-        'img'
+        'img',
     ];
 
     public function user()
