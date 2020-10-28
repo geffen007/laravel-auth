@@ -13,12 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('guests.home');
-})->name('guestHome');
+// Route::get('/', function () {
+//     return view('guests.home');
+// })->name('guestHome');
 
 Auth::routes();
-
 
 //Route::get('admin/home', 'Admin\HomeController@index')->name('home'); alternativa
 
@@ -26,8 +25,12 @@ Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function()
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('posts', 'PostController');
 });
-
 //middleware tolto dal controller
+
+
+Route::get('/', 'HomeController@index')->name('guestHome');
 
 Route::get('posts', 'PostController@index')->name('guests.home');
 Route::get('posts/show/{slug}', 'PostController@show')->name('guests.show');
+
+Route::get('users/show/{id}', 'userController@show')->name('user.show');

@@ -83,13 +83,16 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
-            <div class="container">
+    </div>
+    <main class="py-4 container">
+        <div class="row">
+            <div class="col-9">
                 @yield('content')
             </div>
-
-        </main>
-    </div>
+            <aside class="col-3">
+                @include('layouts.partials.aside')
+            </aside>
+        </div>
+    </main>
 </body>
 </html>
